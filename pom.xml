@@ -1,0 +1,8 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.kafkaesque</groupId>
+	<artifactId>kafkaesque</artifactId>
+	<version>1.0.0</version>
+</project>
+

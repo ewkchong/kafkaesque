@@ -8,4 +8,8 @@ public class DefaultLog implements Log {
     public String readEvent(long offset) {
         return null;
     }
+
+    public void close() {
+
+    }
 }

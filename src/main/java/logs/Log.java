@@ -16,4 +16,9 @@ public interface Log {
      * @return The content of the event.
      */
     String readEvent(long offset);
+
+    /**
+     * Closes the log, releasing any resources. Flushes data to file.
+     */
+    void close();
 }

@@ -1,10 +1,10 @@
 package topics;
 
-public abstract class DefaultTopic {
+public abstract class TopicMessage {
     public Topic topic;
     public int id;
 
-    public DefaultTopic(Topic topic, int id) {
+    public TopicMessage(Topic topic, int id) {
         this.topic = topic;
         this.id = id;
     }

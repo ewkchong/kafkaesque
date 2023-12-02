@@ -15,8 +15,4 @@ public class DefaultBroker implements Broker {
     public ArrayList<Partition> getPartitions() {
         return partitions;
     }
-
-    public ArrayList<Topic> getTopics() {
-        return null;
-    }
 }

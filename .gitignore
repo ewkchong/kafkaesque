@@ -1,6 +1,10 @@
 target/
+.DS_Store
 
 # Eclipse stuff
 .settings/
 .project
 .classpath
+
+# Intellij stuff
+.idea/

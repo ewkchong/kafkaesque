@@ -4,6 +4,8 @@ import brokers.Broker;
 import messages.Message;
 import topics.Topic;
 
+import java.util.List;
+
 public interface Consumer {
     /**
      * Initializes the consumer by communicating with a broker in the cluster.
@@ -25,9 +27,13 @@ public interface Consumer {
 
     /**
      * Consume from the assigned broker.
-     * Assumes the consumer will internally keep track of the index for each topic+id
      */
-    Message consumeMessage();
+    void consumeMessage();
+
+    /*
+     * return messages
+     */
+    public List<Message> getMessageBuffer();
 
     /**
      * Closes the consumer, releasing any resources.

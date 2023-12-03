@@ -33,7 +33,8 @@ class Main {
 		producer.close();
 
 		consumer.initialize(broker, Topic.DRIVER_DATA);
-		Message received = consumer.consumeMessage();
+		consumer.consumeMessage();
+		System.out.println(consumer.getMessageBuffer());
 		consumer.close();
 	}
 }

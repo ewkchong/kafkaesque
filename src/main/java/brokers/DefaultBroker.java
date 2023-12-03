@@ -22,10 +22,17 @@ public class DefaultBroker implements Broker {
     }
 
     public List<Message> consume(Topic topic, int id, int offset) {
+        // since we assign brokers to consumers this broker should have the partition corresponding to topic/id?
+        // ie) we don't have to find the right broker?
+
+        //TODO find partition by topic/id and return messages starting at offset
         return new ArrayList<Message>();
     }
 
     public void produce(Message message) {
+        // since we assign brokers to consumers this broker should have the partition corresponding to topic/id?
+
+        // TODO add message to partition corresponding to topic/id.
 
     }
 }

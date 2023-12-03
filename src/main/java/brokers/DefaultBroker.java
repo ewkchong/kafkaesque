@@ -15,4 +15,7 @@ public class DefaultBroker implements Broker {
     public ArrayList<Partition> getPartitions() {
         return partitions;
     }
+    public void addPartition(Partition partition) {
+        partitions.add(partition);
+    }
 }

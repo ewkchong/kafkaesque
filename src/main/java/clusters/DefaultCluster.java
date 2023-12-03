@@ -14,4 +14,8 @@ public class DefaultCluster implements Cluster {
     public ArrayList<Broker> getBrokers() {
         return brokers;
     }
+
+    public void addBroker(Broker broker) {
+        brokers.add(broker);
+    }
 }

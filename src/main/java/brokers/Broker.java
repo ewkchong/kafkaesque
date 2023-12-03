@@ -7,4 +7,5 @@ import java.util.ArrayList;
 
 public interface Broker {
     public ArrayList<Partition> getPartitions();
+    public void addPartition(Partition partition);
 }

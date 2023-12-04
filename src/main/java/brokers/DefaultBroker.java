@@ -3,6 +3,7 @@ package brokers;
 import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
+import org.json.JSONObject;
 import partitions.CityPartition;
 import partitions.IdPartition;
 import partitions.Partition;
@@ -59,22 +60,29 @@ public class DefaultBroker implements Broker {
         return messages;
     }
 
-    public void produce(Message message) {
+    public void produce(Message message) throws NoPartitionFound {
         // TODO add message to partition corresponding to topic/id.
         Topic topic = message.topic;
+        JSONObject obj = new JSONObject(message.content);
+        Partition p;
         if (topic == Topic.RIDER_REQUESTS_RIDE) {
             // get city
+            String city = obj.getString("city");
+            p = findPartition(topic, city);
 
         } else {
             // get id
+            int id = obj.getInt("id");
+            p = findPartition(topic, id);
         }
+        p.appendMessage(message);
     }
 
     private Partition findPartition(Topic topic, String city) throws NoPartitionFound {
         for (Partition p : partitions) {
             if (p instanceof CityPartition) {
                 CityPartition cp = (CityPartition) p;
-                if (p.getTopic() == topic && city == cp.getCity()) {
+                if (p.getTopic() == topic && city.equals(cp.getCity())) {
                     return p;
                 }
             }

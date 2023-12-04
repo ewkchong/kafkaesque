@@ -27,6 +27,9 @@ public interface Consumer {
      */
     void initialize(Broker broker, Topic topic);
 
+    // for city
+    public void initialize(Broker broker, Topic topic, String city);
+
     /**
      * Consume from the assigned broker.
      */

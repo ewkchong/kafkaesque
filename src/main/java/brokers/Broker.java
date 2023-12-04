@@ -22,5 +22,5 @@ public interface Broker {
     // for Topic: Rider Requests Ride
     public List<Message> consume(Topic topic, String city, int offset) throws BadPartitionException, NoPartitionFound;
     // used by producers to send a message
-    public void produce(Message message);
+    public void produce(Message message) throws NoPartitionFound;
 }

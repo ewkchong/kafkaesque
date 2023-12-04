@@ -1,6 +1,7 @@
 package producers;
 
 import brokers.Broker;
+import exceptions.NoPartitionFound;
 import messages.Message;
 import topics.Topic;
 
@@ -19,7 +20,7 @@ public interface Producer {
      *
      * @param message
      */
-    void produceMessage(Message message);
+    void produceMessage(Message message) throws NoPartitionFound;
 
     /**
      * Closes the producer, releasing any resources.

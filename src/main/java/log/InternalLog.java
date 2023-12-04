@@ -4,22 +4,21 @@ import java.util.ArrayList;
 
 import log.exceptions.SegmentFullException;
 
-class LogConfig {
-	public static final long SEGMENT_SIZE_BYTES = 1024 * 1024;
-}
 
 public class InternalLog implements Log {
 	private Segment activeSegment;
 	private ArrayList<Segment> segments;
+	private LogConfig config;
 
-	public InternalLog() {
+	public InternalLog(LogConfig config) {
 		this.segments = new ArrayList<>();
+		this.config = config;
 		setup();
 	}
 
 	private void setup() {
 		// initialize one segment with base offset of 0 (beginning)
-		Segment initialSegment = new Segment("data", 0);
+		Segment initialSegment = new Segment("data", 0, this.config);
 		activeSegment = initialSegment;
 		segments.add(initialSegment);
 	}
@@ -30,7 +29,7 @@ public class InternalLog implements Log {
 		try {
 			return activeSegment.append(record);
 		} catch (SegmentFullException e) {
-			Segment newSegment = new Segment("data", activeSegment.getNextOffset());
+			Segment newSegment = new Segment("data", activeSegment.getNextOffset(), this.config);
 			segments.add(newSegment);
 			activeSegment = newSegment;
 			try {
@@ -52,6 +51,8 @@ public class InternalLog implements Log {
 	}
 
 	public void close() {
-		//  TODO: close log and release resources
+		for (Segment segment : segments) {
+			segment.close();
+		}
 	}
 }

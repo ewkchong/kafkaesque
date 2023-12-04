@@ -5,30 +5,33 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import log.Record;
 import log.exceptions.SegmentFullException;
-
 
 public class Segment {
 	private File file;
 	private long baseOffset;
 	private long nextOffset;
 	private RandomAccessFile raf;
+	private LogConfig logConfig;
 
-	public Segment(String baseDirectory, long baseOffset) {
-
+	public Segment(String baseDirectory, long baseOffset, LogConfig config) {
 		// create a new file in the baseDirectory
-		this.file = new File(baseDirectory, String.valueOf(baseOffset));
-
+		this.file = new File(baseDirectory, String.valueOf(baseOffset) + ".store");
 		// allow access to file as if it were a byte array
 		try {
+			this.file.createNewFile();
 			this.raf = new RandomAccessFile(file, "rw");
 		} catch (FileNotFoundException e) {
+			System.err.println("Could not find file: " + file.getAbsolutePath());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Could not create file: " + file.getAbsolutePath());
 			e.printStackTrace();
 		}
 
 		this.baseOffset = baseOffset;
 		this.nextOffset = baseOffset;
+		this.logConfig = config;
 	}
 
 
@@ -47,15 +50,36 @@ public class Segment {
 		byte[] data = record.serialize();
 
 		try {
+			// ensure file pointer is at the end
+			raf.seek(nextOffset);
 			raf.write(data);
 			nextOffset += data.length;
 		} catch (IOException e) {
-			e.printStackTrace();
+			// System.out.println("Segment Append: Could not write to file: " + file.getAbsolutePath());
+			// e.printStackTrace();
 		}
 		return 0;
 	}
 
+	/**
+	 * Reads record at logical offset
+	 *
+	 * @param  offset  offset of record
+	 * @return		   record at offset
+	 */
 	public Record read(long offset) {
+		try {
+			raf.seek(offset);
+			int recordLength = raf.readInt();
+			byte[] data = new byte[recordLength - 4];
+			raf.read(data);
+			return Record.deserialize(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// probably an error in deserialization
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -83,7 +107,6 @@ public class Segment {
 	 * @return true if record can fit in segment, false otherwise
 	 */
 	private boolean canFit(int len) {
-		//  TODO: implement canFit
-		return false;
+		return nextOffset - baseOffset + len <= logConfig.getSegmentSizeBytes();
 	}
 }

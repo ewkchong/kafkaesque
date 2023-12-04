@@ -16,14 +16,20 @@ public class Message implements Record {
         this.topic = topic;
         this.content = content;
     }
-
+	
 	public int length() {
 		// TODO: get length of the record
 		return 0;
 	}
-
+	
+	/**
+	 * serializes the message into a byte array
+	 * @return the serialized message as a byte array
+	 */
 	public byte[] serialize() {
 		// TODO: serialize the record
 		return new byte[0];
 	}
+
+
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import log.exceptions.SegmentFullException;
 
@@ -13,6 +14,7 @@ public class Segment {
 	private long nextOffset;
 	private RandomAccessFile raf;
 	private LogConfig logConfig;
+	private ArrayList<Integer> index;
 
 	public Segment(String baseDirectory, long baseOffset, LogConfig config) {
 		// create a new file in the baseDirectory
@@ -32,6 +34,7 @@ public class Segment {
 		this.baseOffset = baseOffset;
 		this.nextOffset = baseOffset;
 		this.logConfig = config;
+		this.index = new ArrayList<Integer>();
 	}
 
 
@@ -53,6 +56,7 @@ public class Segment {
 			// ensure file pointer is at the end
 			raf.seek(nextOffset);
 			raf.write(data);
+			index.add((int) nextOffset);
 			nextOffset += data.length;
 		} catch (IOException e) {
 			// System.out.println("Segment Append: Could not write to file: " + file.getAbsolutePath());
@@ -68,11 +72,25 @@ public class Segment {
 	 * @return		   record at offset
 	 */
 	public Record read(long offset) {
+		//  TODO: do something if offset is out of bounds
 		try {
-			raf.seek(offset);
-			int recordLength = raf.readInt();
-			byte[] data = new byte[recordLength - 4];
-			raf.read(data);
+			raf.seek(baseOffset + index.get((int) offset));
+			// int recordLength = raf.readInt();
+			
+			// read the first 4 bytes of the record
+			byte[] recordLengthBytes = new byte[4];
+			raf.read(recordLengthBytes);
+			int recordLength = (recordLengthBytes[0] << 24) | (recordLengthBytes[1] << 16) | (recordLengthBytes[2] << 8) | (recordLengthBytes[3]);
+
+			byte[] data = new byte[recordLength];
+
+			// add the first 4 bytes to the data array
+			data[0] = recordLengthBytes[0];
+			data[1] = recordLengthBytes[1];
+			data[2] = recordLengthBytes[2];
+			data[3] = recordLengthBytes[3];
+
+			raf.read(data, 4, recordLength - 4);
 			return Record.deserialize(data);
 		} catch (IOException e) {
 			e.printStackTrace();

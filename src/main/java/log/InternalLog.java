@@ -46,8 +46,7 @@ public class InternalLog implements Log {
 	}
 
 	public Record read(long offset) {
-		// TODO: read record at offset
-		return null;
+		return activeSegment.read(offset);
 	}
 
 	public void close() {

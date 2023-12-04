@@ -4,7 +4,7 @@ import logs.Log;
 import messages.Message;
 import topics.Topic;
 
-public class DefaultPartition implements Partition {
+public abstract class DefaultPartition implements Partition {
     private Topic topic;
     private Log log;
 

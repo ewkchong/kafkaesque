@@ -1,6 +1,8 @@
 package consumers;
 
 import brokers.Broker;
+import exceptions.BadPartitionException;
+import exceptions.NoPartitionFound;
 import messages.Message;
 import topics.Topic;
 
@@ -30,7 +32,7 @@ public class DefaultConsumer implements Consumer {
         initialize(broker, topic, -1);
     }
 
-    public void consumeMessage() {
+    public void consumeMessage() throws BadPartitionException, NoPartitionFound {
         messageBuffer.addAll(broker.consume(topic, id, 0));
     }
 

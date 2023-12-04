@@ -1,6 +1,8 @@
 package consumers;
 
 import brokers.Broker;
+import exceptions.BadPartitionException;
+import exceptions.NoPartitionFound;
 import messages.Message;
 import topics.Topic;
 
@@ -28,7 +30,7 @@ public interface Consumer {
     /**
      * Consume from the assigned broker.
      */
-    void consumeMessage();
+    void consumeMessage() throws BadPartitionException, NoPartitionFound;
 
     /*
      * return messages

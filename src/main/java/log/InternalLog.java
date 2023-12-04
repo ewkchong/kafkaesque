@@ -1,6 +1,5 @@
 package log;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import log.exceptions.SegmentFullException;
@@ -50,5 +49,9 @@ public class InternalLog implements Log {
 	public Record read(long offset) {
 		// TODO: read record at offset
 		return null;
+	}
+
+	public void close() {
+		//  TODO: close log and release resources
 	}
 }

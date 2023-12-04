@@ -1,6 +1,6 @@
 package partitions;
 
-import logs.Log;
+import log.Log;
 import messages.Message;
 import topics.Topic;
 

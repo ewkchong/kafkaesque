@@ -1,8 +1,9 @@
 package messages;
 
+import log.Record;
 import topics.Topic;
 
-public class Message {
+public class Message implements Record {
     public int identifier;
     public Topic topic;
     // content is json format
@@ -15,4 +16,14 @@ public class Message {
         this.topic = topic;
         this.content = content;
     }
+
+	public int length() {
+		// TODO: get length of the record
+		return 0;
+	}
+
+	public byte[] serialize() {
+		// TODO: serialize the record
+		return new byte[0];
+	}
 }

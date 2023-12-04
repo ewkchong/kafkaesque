@@ -15,8 +15,9 @@ public class Segment {
 	private RandomAccessFile raf;
 	private LogConfig logConfig;
 	private ArrayList<Integer> index;
+	private int baseIndex;
 
-	public Segment(String baseDirectory, long baseOffset, LogConfig config) {
+	public Segment(String baseDirectory, long baseOffset, int baseIndex, LogConfig config) {
 		// create a new file in the baseDirectory
 		this.file = new File(baseDirectory, String.valueOf(baseOffset) + ".store");
 		// allow access to file as if it were a byte array
@@ -33,6 +34,7 @@ public class Segment {
 
 		this.baseOffset = baseOffset;
 		this.nextOffset = baseOffset;
+		this.baseIndex = baseIndex;
 		this.logConfig = config;
 		this.index = new ArrayList<Integer>();
 	}
@@ -119,6 +121,14 @@ public class Segment {
 		return nextOffset;
 	}
 
+	public int getBaseIndex() {
+		return baseIndex;
+	}
+
+	public int getSize() {
+		return index.size();
+	}
+
 	/**
 	 * Returns true if record can fit in segment, false otherwise
 	 * @param len
@@ -127,4 +137,5 @@ public class Segment {
 	private boolean canFit(int len) {
 		return nextOffset - baseOffset + len <= logConfig.getSegmentSizeBytes();
 	}
+
 }

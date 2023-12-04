@@ -22,7 +22,7 @@ public class SegmentTest {
 			segment.close();
 		}
 		try {
-			segment = new Segment("data", 0, config);
+			segment = new Segment("data", 0, 0, config);
 		} catch (Exception e) {
 			fail();
 		}

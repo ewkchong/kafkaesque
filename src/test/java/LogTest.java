@@ -20,7 +20,7 @@ public class LogTest {
 	@BeforeAll
 	public void setUp() {
 		try {
-			LogConfig config = new LogConfig(100, "target/storage");
+			LogConfig config = new LogConfig(100, "data");
 			log = new InternalLog(config);
 		} catch (Exception e) {
 			System.err.println("Could not create log in testing");
@@ -39,7 +39,13 @@ public class LogTest {
 		assertArrayEquals(new Message(1, Topic.DRIVER_DATA, "blah").serialize(), record.serialize());
 	}
 
-	// @Test
-	// public void basicRead() {
-	// }
+	@Test
+	public void testAppendAndReadMultiple() {
+		//  TODO: test multiple appends and reads
+	}
+
+	@Test
+	public void testAppendFullActiveSegment() {
+
+	}
 }

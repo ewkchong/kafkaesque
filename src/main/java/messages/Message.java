@@ -34,7 +34,7 @@ public class Message implements Record {
 			int topicLength = topicBytes.length;
 
 			byte[] data = new byte[4 + 4 + 4 + topicLength + content.getBytes().length];
-			
+
 			// write length to byte array
 			data[0] = (byte) (length() >> 24);
 			data[1] = (byte) (length() >> 16);
@@ -46,7 +46,6 @@ public class Message implements Record {
 			data[5] = (byte) (identifier >> 16);
 			data[6] = (byte) (identifier >> 8);
 			data[7] = (byte) (identifier);
-
 
 			// write length of topic string to byte array
 			data[8] = (byte) (topicBytes.length >> 24);

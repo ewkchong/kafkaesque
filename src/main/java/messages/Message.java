@@ -18,7 +18,7 @@ public class Message implements Record {
         this.topic = topic;
         this.content = content;
     }
-	
+  
 	public int length() {
 		int topicLength = topic.toString().getBytes().length;
 		return 4 + 4 + 4 + topicLength + content.getBytes().length;
@@ -70,6 +70,4 @@ public class Message implements Record {
 		}
 		return null;
 	}
-
-
 }

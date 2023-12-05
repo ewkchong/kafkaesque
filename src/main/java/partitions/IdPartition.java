@@ -17,4 +17,15 @@ public class IdPartition extends DefaultPartition {
     public int getId() {
         return id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof IdPartition)) {
+            return false;
+        }
+        IdPartition OtherPartition = (IdPartition) obj;
+
+        return OtherPartition.id == this.id && OtherPartition.getTopic() == this.getTopic();
+    }
 }

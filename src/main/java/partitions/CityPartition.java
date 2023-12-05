@@ -16,4 +16,14 @@ public class CityPartition extends DefaultPartition {
     public String getCity() {
         return city;
     }
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof CityPartition)) {
+            return false;
+        }
+        CityPartition OtherPartition = (CityPartition) obj;
+
+        return OtherPartition.city.equals(this.city) && OtherPartition.getTopic() == this.getTopic();
+    }
 }

@@ -1,6 +1,8 @@
 package consumers;
 
 import brokers.Broker;
+import exceptions.BadPartitionException;
+import exceptions.NoPartitionFound;
 import messages.Message;
 import topics.Topic;
 
@@ -25,10 +27,13 @@ public interface Consumer {
      */
     void initialize(Broker broker, Topic topic);
 
+    // for city
+    public void initialize(Broker broker, Topic topic, String city);
+
     /**
      * Consume from the assigned broker.
      */
-    void consumeMessage();
+    void consumeMessage() throws BadPartitionException, NoPartitionFound;
 
     /*
      * return messages

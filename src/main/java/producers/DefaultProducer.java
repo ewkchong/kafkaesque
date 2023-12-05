@@ -1,6 +1,7 @@
 package producers;
 
 import brokers.Broker;
+import exceptions.NoPartitionFound;
 import topics.Topic;
 import messages.Message;
 
@@ -12,7 +13,7 @@ public class DefaultProducer implements Producer {
         this.topic = topic;
     }
 
-    public void produceMessage(Message message) {
+    public void produceMessage(Message message) throws NoPartitionFound {
         broker.produce(message); // topic is in the message
     }
 

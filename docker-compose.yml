@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  node-1:
+    build: .
+    ports:
+      - "8000:8080"
+  node-2:
+    build: .
+    ports:
+      - "8001:8080"
+  node-3:
+    build: .
+    ports:
+      - "8002:8080"
+  node-4:
+    build: .
+    ports:
+      - "8003:8080"
+      
+    
+    

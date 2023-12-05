@@ -27,6 +27,8 @@ public class BrokerTest {
         Broker b = new DefaultBroker();
         Partition p1 = new IdPartition(Topic.DRIVER_DATA, 1);
         Partition p2 = new CityPartition(Topic.RIDER_REQUESTS_RIDE, "vancouver");
+        b.addPartition(p1);
+        b.addPartition(p2);
         assertDoesNotThrow(() -> {
             b.consume(Topic.RIDER_REQUESTS_RIDE, "vancouver", 1);
         });

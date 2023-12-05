@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class rest {
 	public static void main(String[] args) {
-		KafkaRestController rest = new KafkaRestController();
 		SpringApplication.run(rest.class, args);
 	}
 

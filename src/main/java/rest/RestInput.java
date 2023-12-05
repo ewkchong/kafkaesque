@@ -1,4 +1,4 @@
 package rest;
 
-public record RestInput(long id, String city, double x, double y,long offset) { }
+public record RestInput(int id, String city, double lat, double lng,int offset) { }
 

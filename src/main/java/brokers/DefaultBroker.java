@@ -35,9 +35,10 @@ public class DefaultBroker implements Broker {
         Partition p = findPartition(topic, id);
         Message m = p.readMessage(offset);
         while (m != null) {
+            System.out.printf("consuming: " + m.content);
             messages.add(m);
             offset += 1;
-            p.readMessage(offset);
+            m = p.readMessage(offset);
         }
 
         return messages;
@@ -52,9 +53,10 @@ public class DefaultBroker implements Broker {
         Partition p = findPartition(topic, city);
         Message m = p.readMessage(offset);
         while (m != null) {
+            System.out.printf("consuming: " + m.content);
             messages.add(m);
             offset += 1;
-            p.readMessage(offset);
+            m = p.readMessage(offset);
         }
 
         return messages;

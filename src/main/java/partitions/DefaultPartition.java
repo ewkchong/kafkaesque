@@ -24,6 +24,6 @@ public abstract class DefaultPartition implements Partition {
     }
 
     public Message readMessage(int offset) {
-        return null;
+        return (Message) log.read(offset);
     }
 }

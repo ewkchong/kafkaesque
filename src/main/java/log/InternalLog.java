@@ -46,7 +46,8 @@ public class InternalLog implements Log {
 			nextIndex++;
 			return result;
 		} catch (SegmentFullException e) {
-			Segment newSegment = new Segment("data", activeSegment.getNextOffset(), nextIndex, this.config);
+			String dataDirPath = dataDir.getPath();
+			Segment newSegment = new Segment(dataDirPath, activeSegment.getNextOffset(), nextIndex, this.config);
 			segments.add(newSegment);
 			activeSegment = newSegment;
 			try {

@@ -56,13 +56,13 @@ public class Segment {
 
 		try {
 			// ensure file pointer is at the end
-			raf.seek(nextOffset);
+			raf.seek(nextOffset - baseOffset);
 			raf.write(data);
 			index.add((int) nextOffset);
 			nextOffset += data.length;
 		} catch (IOException e) {
-			// System.out.println("Segment Append: Could not write to file: " + file.getAbsolutePath());
-			// e.printStackTrace();
+			System.out.println("Segment Append: Could not write to file: " + file.getAbsolutePath());
+			e.printStackTrace();
 		}
 		return 0;
 	}
@@ -70,13 +70,13 @@ public class Segment {
 	/**
 	 * Reads record at logical offset
 	 *
-	 * @param  offset  offset of record
-	 * @return		   record at offset
+	 * @param  index  index of record
+	 * @return		  record at offset
 	 */
-	public Record read(long offset) {
+	public Record read(long index) {
 		//  TODO: do something if offset is out of bounds
 		try {
-			raf.seek(baseOffset + index.get((int) offset));
+			raf.seek(this.index.get((int) index) - baseOffset);
 			// int recordLength = raf.readInt();
 			
 			// read the first 4 bytes of the record

@@ -24,6 +24,12 @@ public class InternalLog implements Log {
 		// Get system path separator
 		String separator = System.getProperty("file.separator");
 
+		// ensure data/ directory exists, if not, create it
+		File dataDir = new File("data");
+		if (!dataDir.exists()) {
+			dataDir.mkdir();
+		}
+
 		// initialize a folder within the data/ directory
 		String dataDirPath = "data" + separator + config.getStoreDir();
 		File dataFolder = new File(dataDirPath);

@@ -34,3 +34,7 @@ Use Docker Compose to establish a Kafkaesque test cluster on a single machine:
 docker compose up
 ```
 
+Take everything down with:
+```bash
+docker compose down
+```

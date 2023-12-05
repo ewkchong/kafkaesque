@@ -23,9 +23,14 @@ public class SegmentTest {
 
 	@BeforeAll
 	public static void setUpBeforeClass() throws Exception {
-		File dataDir = new File("data/segmentTest");
+		File dataDir = new File("data");
 		if (!dataDir.exists()) {
 			dataDir.mkdir();
+		}
+
+		File dataSegmentDir = new File("data/segmentTest");
+		if (!dataSegmentDir.exists()) {
+			dataSegmentDir.mkdir();
 		}
 	}
 

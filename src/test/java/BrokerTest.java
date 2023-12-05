@@ -1,8 +1,11 @@
 import brokers.Broker;
 import brokers.DefaultBroker;
 import exceptions.BadPartitionException;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
 import partitions.CityPartition;
 import partitions.IdPartition;
 import partitions.Partition;
@@ -12,13 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BrokerTest {
 
-    @Before
+    @BeforeAll
     public void setUp() {
     }
 
-    @Test
+	@Test
     public void testConsume() throws BadPartitionException {
         Broker b = new DefaultBroker();
         Partition p1 = new IdPartition(Topic.DRIVER_DATA, 1);

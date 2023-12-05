@@ -1,5 +1,5 @@
 # Use a base image with Java and Maven pre-installed
-FROM maven:3.8.4-openjdk-17-slim AS build
+FROM maven:3.9.5-amazoncorretto-17 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn package
 
 # Use a lightweight base image with Java to run the application
-FROM openjdk:17-slim
+FROM amazoncorretto:17-alpine3.18
 
 # Set the working directory inside the container
 WORKDIR /app

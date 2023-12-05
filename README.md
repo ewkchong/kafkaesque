@@ -28,5 +28,9 @@ Run the image with:
 docker run kafkaesque
 ```
 
-
+### Docker Compose (WIP)
+Use Docker Compose to establish a Kafkaesque test cluster on a single machine:
+```bash
+docker compose up
+```
 

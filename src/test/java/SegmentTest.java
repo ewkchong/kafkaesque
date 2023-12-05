@@ -2,18 +2,32 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import log.LogConfig;
 import log.Segment;
 import messages.Message;
 import topics.Topic;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SegmentTest {
 	Segment segment;
-	LogConfig config = new LogConfig(100, "target/storage");
+	LogConfig config = new LogConfig(100, "segmentTest");
+
+	@BeforeAll
+	public static void setUpBeforeClass() throws Exception {
+		File dataDir = new File("data/segmentTest");
+		if (!dataDir.exists()) {
+			dataDir.mkdir();
+		}
+	}
 
 	@BeforeEach
 	public void setUp() {
@@ -22,7 +36,7 @@ public class SegmentTest {
 			segment.close();
 		}
 		try {
-			segment = new Segment("data", 0, 0, config);
+			segment = new Segment("data/segmentTest", 0, 0, config);
 		} catch (Exception e) {
 			fail();
 		}
@@ -31,6 +45,14 @@ public class SegmentTest {
 	@AfterEach
 	public void tearDown() throws Exception {
 		segment.close();
+	}
+
+	@AfterAll
+	public void tearDownAfterClass() throws Exception {
+		File dataDir = new File("data/segmentTest");
+		if (dataDir.exists()) {
+			dataDir.delete();
+		}
 	}
 
 	@Test

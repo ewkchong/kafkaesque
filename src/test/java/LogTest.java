@@ -2,7 +2,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -20,7 +19,7 @@ public class LogTest {
 	@BeforeAll
 	public void setUp() {
 		try {
-			LogConfig config = new LogConfig(100, "data");
+			LogConfig config = new LogConfig(100, "logTest");
 			log = new InternalLog(config);
 		} catch (Exception e) {
 			System.err.println("Could not create log in testing");

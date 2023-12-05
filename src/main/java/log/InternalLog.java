@@ -1,5 +1,6 @@
 package log;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import log.exceptions.SegmentFullException;
@@ -10,6 +11,7 @@ public class InternalLog implements Log {
 	private ArrayList<Segment> segments;
 	private LogConfig config;
 	private int nextIndex;
+	private File dataDir;
 
 	public InternalLog(LogConfig config) {
 		this.segments = new ArrayList<>();
@@ -19,8 +21,19 @@ public class InternalLog implements Log {
 	}
 
 	private void setup() {
+		// Get system path separator
+		String separator = System.getProperty("file.separator");
+
+		// initialize a folder within the data/ directory
+		String dataDirPath = "data" + separator + config.getStoreDir();
+		File dataFolder = new File(dataDirPath);
+		if (!dataFolder.exists()) {
+			dataFolder.mkdir();
+		}
+		this.dataDir = dataFolder;
+
 		// initialize one segment with base offset of 0 (beginning)
-		Segment initialSegment = new Segment("data", 0, 0, this.config);
+		Segment initialSegment = new Segment(dataDirPath, 0, 0, this.config);
 		activeSegment = initialSegment;
 		segments.add(initialSegment);
 	}
@@ -72,5 +85,6 @@ public class InternalLog implements Log {
 		for (Segment segment : segments) {
 			segment.close();
 		}
+		dataDir.delete();
 	}
 }

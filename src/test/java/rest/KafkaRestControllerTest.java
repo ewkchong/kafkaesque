@@ -11,14 +11,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import rest.errors.InvalidRequest;
 import rest.errors.WrongServer;
-import topics.Topic;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class KafkaRestControllerTest {

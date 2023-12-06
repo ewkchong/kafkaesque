@@ -35,7 +35,6 @@ public class DefaultBroker implements Broker {
         Partition p = findPartition(topic, id);
         Message m = p.readMessage(offset);
         while (m != null) {
-            System.out.printf("consuming: " + m.content);
             messages.add(m);
             offset += 1;
             m = p.readMessage(offset);
@@ -51,7 +50,9 @@ public class DefaultBroker implements Broker {
         List<Message> messages = new ArrayList<Message>();
 
         Partition p = findPartition(topic, city);
+        System.out.println(p);
         Message m = p.readMessage(offset);
+        System.out.println(m);
         while (m != null) {
             System.out.printf("consuming: " + m.content);
             messages.add(m);
@@ -65,6 +66,7 @@ public class DefaultBroker implements Broker {
     public void produce(Message message) throws NoPartitionFound {
         // TODO add message to partition corresponding to topic/id.
         Topic topic = message.topic;
+        System.out.printf(message.content);
         JSONObject obj = new JSONObject(message.content);
         Partition p;
         if (topic == Topic.RIDER_REQUESTS_RIDE) {

@@ -113,17 +113,35 @@ public class DefaultBroker implements Broker {
         p.appendMessage(message);
     }
 
-    public int consumeInit(Broker broker, Topic topic, int id) {
-        // TODO
-        return -1;
+    public Service clientInit(Topic topic, int id) throws NoPartitionFound {
+        Partition p;
+        for (var entry : brokersToPartitions.entrySet()) {
+            if(findPartition(entry.getValue(), topic, id) != null) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
-    public int produceInit(Broker broker, Topic topic) {
-        // TODO
-        return -1;
+    public Service clientInit(Topic topic, String city) throws NoPartitionFound {
+        Partition p;
+        for (var entry : brokersToPartitions.entrySet()) {
+            if(findPartition(entry.getValue(), topic, city) != null) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     private Partition findPartition(Topic topic, String city) throws NoPartitionFound {
+        return findPartition(this.partitions, topic, city);
+    }
+
+    private Partition findPartition(Topic topic, int id) throws NoPartitionFound {
+        return findPartition(this.partitions, topic, id);
+    }
+
+    private static Partition findPartition(List<Partition> partitions, Topic topic, String city) throws NoPartitionFound {
         for (Partition p : partitions) {
             if (p instanceof CityPartition) {
                 CityPartition cp = (CityPartition) p;
@@ -135,7 +153,7 @@ public class DefaultBroker implements Broker {
         throw new NoPartitionFound();
     }
 
-    private Partition findPartition(Topic topic, int id) throws NoPartitionFound {
+    private static Partition findPartition(List<Partition> partitions, Topic topic, int id) throws NoPartitionFound {
         for (Partition p : partitions) {
             if (p instanceof IdPartition) {
                 IdPartition idp = (IdPartition) p;

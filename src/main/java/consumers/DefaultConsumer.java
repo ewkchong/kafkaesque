@@ -4,6 +4,7 @@ import brokers.Broker;
 import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
+import types.Service;
 import types.Topic;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class DefaultConsumer implements Consumer {
     Broker broker;
-    int brokerPort;
+    Service service;
     Topic topic;
     int id;
     String city;
@@ -23,22 +24,22 @@ public class DefaultConsumer implements Consumer {
         this.messageBuffer = new ArrayList<Message>();
     }
 
-    public void initialize(Broker broker, Topic topic, int id) {
+    public void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound {
         initialize(broker, topic);
         this.id = id;
         this.offset = 0;
     }
 
-    public void initialize(Broker broker, Topic topic, String city) {
+    public void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound {
         initialize(broker, topic);
         this.city = city;
         this.offset = 0;
     }
 
-    public void initialize(Broker broker, Topic topic) {
+    public void initialize(Broker broker, Topic topic) throws NoPartitionFound {
         this.broker = broker;
         this.topic = topic;
-        this.brokerPort = broker.consumeInit(broker, topic, id);
+        this.service = broker.clientInit(topic, id);
     }
 
     public void consumeMessage() throws BadPartitionException, NoPartitionFound {

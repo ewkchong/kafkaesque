@@ -4,6 +4,7 @@ import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
 import partitions.Partition;
+import types.Service;
 import types.Topic;
 
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ public interface Broker {
 
 
     // returns port number of assigned broker
-    public int consumeInit(Broker broker, Topic topic, int id);
-    // returns port number of assigned broker
-    public int produceInit(Broker broker, Topic topic);
+    public Service clientInit(Topic topic, int id) throws NoPartitionFound;
+    public Service clientInit(Topic topic, String city) throws NoPartitionFound;
 }

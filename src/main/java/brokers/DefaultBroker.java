@@ -29,7 +29,7 @@ public class DefaultBroker implements Broker {
         List<Partition> partitions_4 = new ArrayList<>();
 
         try {
-            // TODO set these to other values. right now only broker "node-1" works
+            // TODO set these to other values. right now only broker "node-1"
             partitions_1.add(new IdPartition(Topic.DRIVER_DATA,1));
             partitions_1.add(new IdPartition(Topic.RIDER_DATA,1));
             partitions_1.add(new CityPartition(Topic.RIDER_REQUESTS_RIDE,"Vancouver"));
@@ -95,7 +95,6 @@ public class DefaultBroker implements Broker {
     }
 
     public void produce(Message message) throws NoPartitionFound {
-        // TODO add message to partition corresponding to topic/id.
         Topic topic = message.topic;
         System.out.printf(message.content);
         JSONObject obj = new JSONObject(message.content);
@@ -116,11 +115,15 @@ public class DefaultBroker implements Broker {
     public Service clientInit(Topic topic, int id) throws NoPartitionFound {
         Partition p;
         for (var entry : brokersToPartitions.entrySet()) {
-            if(findPartition(entry.getValue(), topic, id) != null) {
+            try {
+                findPartition(entry.getValue(), topic, id);
                 return entry.getKey();
             }
+            catch(NoPartitionFound e) {
+                // continue
+            }
         }
-        return null;
+        throw new NoPartitionFound();
     }
 
     public Service clientInit(Topic topic, String city) throws NoPartitionFound {

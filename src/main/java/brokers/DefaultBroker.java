@@ -80,13 +80,13 @@ public class DefaultBroker implements Broker {
         p.appendMessage(message);
     }
 
-    // TODO return type? it should be port of broker
     public int consumeInit(Broker broker, Topic topic, int id) {
-
+        // TODO
         return -1;
     }
 
     public int produceInit(Broker broker, Topic topic) {
+        // TODO
         return -1;
     }
 

@@ -25,6 +25,8 @@ public interface Broker {
     public void produce(Message message) throws NoPartitionFound;
 
 
+    // returns port number of assigned broker
     public int consumeInit(Broker broker, Topic topic, int id);
+    // returns port number of assigned broker
     public int produceInit(Broker broker, Topic topic);
 }

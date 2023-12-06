@@ -63,7 +63,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>rest.DemoApplication</mainClass>
+							<mainClass>rest.rest</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

@@ -2,7 +2,7 @@ package producers;
 
 import brokers.Broker;
 import exceptions.NoPartitionFound;
-import topics.Topic;
+import types.Topic;
 import messages.Message;
 
 public class DefaultProducer implements Producer {

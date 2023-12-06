@@ -4,15 +4,13 @@ import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
 import partitions.Partition;
-import topics.Topic;
+import types.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface Broker {
-    public ArrayList<Partition> getPartitions();
-    public void addPartition(Partition partition);
-
+    public List<Partition> getPartitions();
 
     // REST API methods below
 

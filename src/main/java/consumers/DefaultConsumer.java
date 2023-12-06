@@ -4,7 +4,7 @@ import brokers.Broker;
 import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
-import topics.Topic;
+import types.Topic;
 
 import java.util.ArrayList;
 import java.util.List;

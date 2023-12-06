@@ -3,7 +3,7 @@ package messages;
 import java.io.UnsupportedEncodingException;
 
 import log.Record;
-import topics.Topic;
+import types.Topic;
 
 public class Message implements Record {
     public int identifier;

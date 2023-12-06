@@ -1,4 +1,4 @@
-package topics;
+package types;
 
 public enum Topic {
     DRIVER_DATA,

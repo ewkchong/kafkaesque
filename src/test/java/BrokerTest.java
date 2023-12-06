@@ -1,6 +1,7 @@
 import brokers.Broker;
 import brokers.DefaultBroker;
 import exceptions.BadPartitionException;
+import types.Service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,10 +10,9 @@ import org.junit.jupiter.api.TestInstance;
 import partitions.CityPartition;
 import partitions.IdPartition;
 import partitions.Partition;
-import topics.Topic;
+import types.Topic;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -24,13 +24,9 @@ public class BrokerTest {
 
 	@Test
     public void testConsume() throws BadPartitionException {
-        Broker b = new DefaultBroker();
-        Partition p1 = new IdPartition(Topic.DRIVER_DATA, 1);
-        Partition p2 = new CityPartition(Topic.RIDER_REQUESTS_RIDE, "vancouver");
-        b.addPartition(p1);
-        b.addPartition(p2);
+        Broker b = new DefaultBroker("node-1", 8080);
         assertDoesNotThrow(() -> {
-            b.consume(Topic.RIDER_REQUESTS_RIDE, "vancouver", 1);
+            b.consume(Topic.RIDER_REQUESTS_RIDE, "Vancouver", 0);
         });
         assertDoesNotThrow(() -> {
             b.consume(Topic.DRIVER_DATA, 1, 1);

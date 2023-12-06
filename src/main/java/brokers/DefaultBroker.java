@@ -7,19 +7,49 @@ import org.json.JSONObject;
 import partitions.CityPartition;
 import partitions.IdPartition;
 import partitions.Partition;
-import topics.Topic;
+import types.Service;
+import types.Topic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DefaultBroker implements Broker {
-    ArrayList<Partition> partitions;
+    List<Partition> partitions;
 
-    public DefaultBroker() {
-        this.partitions = new ArrayList<Partition>();
+    public static final Map<Service, List<Partition>> brokersToPartitions = new HashMap<>();
+
+
+    public DefaultBroker(String name, int port) {
+        // setup static brokers
+        List<Partition> partitions_1 = new ArrayList<>();
+        List<Partition> partitions_2 = new ArrayList<>();
+        List<Partition> partitions_3 = new ArrayList<>();
+        List<Partition> partitions_4 = new ArrayList<>();
+
+        try {
+            // TODO set these to other values. right now only broker "node-1" works
+            partitions_1.add(new IdPartition(Topic.DRIVER_DATA,1));
+            partitions_1.add(new IdPartition(Topic.RIDER_DATA,1));
+            partitions_1.add(new CityPartition(Topic.RIDER_REQUESTS_RIDE,"Vancouver"));
+            partitions_1.add(new IdPartition(Topic.DRIVER_REQUESTS_RIDE,1));
+            partitions_1.add(new IdPartition(Topic.RIDER_ACCEPTS_RIDE,1));
+        } catch (BadPartitionException e) {
+            throw new RuntimeException(e);
+        }
+        brokersToPartitions.put(new Service("node-1", 8080), partitions_1);
+        brokersToPartitions.put(new Service("node-2", 8080), partitions_2);
+        brokersToPartitions.put(new Service("node-3", 8080), partitions_3);
+        brokersToPartitions.put(new Service("node-4", 8080), partitions_4);
+
+
+        // init member variables
+        this.partitions = brokersToPartitions.get(new Service("node-1", 8080));
+        assert(this.partitions != null);
     }
 
-    public ArrayList<Partition> getPartitions() {
+    public List<Partition> getPartitions() {
         return partitions;
     }
     public void addPartition(Partition partition) {

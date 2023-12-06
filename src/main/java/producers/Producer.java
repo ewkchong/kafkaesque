@@ -3,7 +3,7 @@ package producers;
 import brokers.Broker;
 import exceptions.NoPartitionFound;
 import messages.Message;
-import topics.Topic;
+import types.Topic;
 
 public interface Producer {
     /**

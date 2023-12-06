@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 public class KafkaRestController{
-    Broker broker; //this is just for now until we have the main broker
+    public Broker broker; //this is just for now until we have the main broker
     Partition partitionDriverData;
     Partition partitionRiderData;
     Partition partitionRiderRequestData;

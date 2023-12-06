@@ -4,15 +4,14 @@ import exceptions.BadPartitionException;
 import exceptions.NoPartitionFound;
 import messages.Message;
 import partitions.Partition;
-import topics.Topic;
+import types.Service;
+import types.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface Broker {
-    public ArrayList<Partition> getPartitions();
-    public void addPartition(Partition partition);
-
+    public List<Partition> getPartitions();
 
     // REST API methods below
 
@@ -23,4 +22,9 @@ public interface Broker {
     public List<Message> consume(Topic topic, String city, int offset) throws BadPartitionException, NoPartitionFound;
     // used by producers to send a message
     public void produce(Message message) throws NoPartitionFound;
+
+
+    // returns port number of assigned broker
+    public Service clientInit(Topic topic, int id) throws NoPartitionFound;
+    public Service clientInit(Topic topic, String city) throws NoPartitionFound;
 }

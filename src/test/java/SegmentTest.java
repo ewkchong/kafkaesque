@@ -14,7 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import log.LogConfig;
 import log.Segment;
 import messages.Message;
-import topics.Topic;
+import types.Topic;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SegmentTest {

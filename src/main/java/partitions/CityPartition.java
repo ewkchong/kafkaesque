@@ -1,7 +1,7 @@
 package partitions;
 
 import exceptions.BadPartitionException;
-import topics.Topic;
+import types.Topic;
 
 public class CityPartition extends DefaultPartition {
     String city;

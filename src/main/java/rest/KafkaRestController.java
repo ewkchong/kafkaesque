@@ -13,7 +13,8 @@ import partitions.IdPartition;
 import partitions.Partition;
 import rest.errors.InvalidRequest;
 import rest.errors.WrongServer;
-import topics.Topic;
+import types.Service;
+import types.Topic;
 
 import java.util.List;
 import java.util.Map;
@@ -32,23 +33,7 @@ public class KafkaRestController{
 
     @Autowired
     public void setup(){
-        this.broker = new DefaultBroker();
-        try {
-            partitionDriverData = new IdPartition(Topic.DRIVER_DATA,1);
-            partitionRiderData = new IdPartition(Topic.RIDER_DATA,1);
-            partitionRiderRequestData = new CityPartition(Topic.RIDER_REQUESTS_RIDE,"Vancouver");
-            partitionDriverRequestData = new IdPartition(Topic.DRIVER_REQUESTS_RIDE,1);
-            partitionRiderAcceptsData = new IdPartition(Topic.RIDER_ACCEPTS_RIDE,1);
-        } catch (BadPartitionException e) {
-            throw new RuntimeException(e);
-        }
-
-        broker.addPartition(partitionDriverData);
-        broker.addPartition(partitionRiderData);
-        broker.addPartition(partitionRiderRequestData);
-        broker.addPartition(partitionDriverRequestData);
-        broker.addPartition(partitionRiderAcceptsData);
-
+        this.broker = new DefaultBroker("node-1", 8080);
     }
 
     public Boolean VerifyPutInput(Map<String, Object> body) {

@@ -1,7 +1,7 @@
 package log;
 
 import messages.Message;
-import topics.Topic;
+import types.Topic;
 
 public interface Record {
 	/**

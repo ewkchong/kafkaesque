@@ -3,7 +3,7 @@ package producers;
 import brokers.Broker;
 import exceptions.NoPartitionFound;
 import messages.Message;
-import topics.Topic;
+import types.Topic;
 
 public interface Producer {
     /**
@@ -13,7 +13,8 @@ public interface Producer {
      * @param broker The initial broker to communicate with.
      * @param topic The topic to which messages will be produced.
      */
-    void initialize(Broker broker, Topic topic);
+    void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound;
+    void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound;
 
     /**
      * Produces a message to the assigned broker.

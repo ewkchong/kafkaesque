@@ -1,5 +1,3 @@
-import brokers.Broker;
-import brokers.DefaultBroker;
 import exceptions.BadPartitionException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -7,8 +5,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import partitions.CityPartition;
 import partitions.IdPartition;
-import partitions.Partition;
-import topics.Topic;
+import types.Topic;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;

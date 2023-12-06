@@ -35,7 +35,6 @@ public class DefaultBroker implements Broker {
         Partition p = findPartition(topic, id);
         Message m = p.readMessage(offset);
         while (m != null) {
-            System.out.printf("consuming: " + m.content);
             messages.add(m);
             offset += 1;
             m = p.readMessage(offset);

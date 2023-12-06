@@ -1,5 +1,6 @@
 # Kafkaesque
 How can we build a fault-tolerant, unified event streaming system for a multitude of concerns, without becoming a bottleneck as we scale? This is why we set out to build Kafkaesque, a distributed system that solves just this problem.
+
 ---
 In the development of Kafkaesque, Java 17 was used to build and test. You may need to change Java versions to try out Kafkaesque, or use Docker.
 ## Quick Start

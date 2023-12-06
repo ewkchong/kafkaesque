@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DefaultConsumer implements Consumer {
     Broker broker;
+    int brokerPort;
     Topic topic;
     int id;
     String city;
@@ -23,21 +24,21 @@ public class DefaultConsumer implements Consumer {
     }
 
     public void initialize(Broker broker, Topic topic, int id) {
-        this.broker = broker;
-        this.topic = topic;
+        initialize(broker, topic);
         this.id = id;
         this.offset = 0;
     }
 
     public void initialize(Broker broker, Topic topic, String city) {
-        this.broker = broker; // TODO logic to be assigned to other brokers
-        this.topic = topic;
+        initialize(broker, topic);
         this.city = city;
         this.offset = 0;
     }
 
     public void initialize(Broker broker, Topic topic) {
-        initialize(broker, topic, -1);
+        this.broker = broker;
+        this.topic = topic;
+        this.brokerPort = broker.consumeInit(broker, topic, id);
     }
 
     public void consumeMessage() throws BadPartitionException, NoPartitionFound {

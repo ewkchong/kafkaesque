@@ -80,6 +80,16 @@ public class DefaultBroker implements Broker {
         p.appendMessage(message);
     }
 
+    // TODO return type? it should be port of broker
+    public int consumeInit(Broker broker, Topic topic, int id) {
+
+        return -1;
+    }
+
+    public int produceInit(Broker broker, Topic topic) {
+        return -1;
+    }
+
     private Partition findPartition(Topic topic, String city) throws NoPartitionFound {
         for (Partition p : partitions) {
             if (p instanceof CityPartition) {

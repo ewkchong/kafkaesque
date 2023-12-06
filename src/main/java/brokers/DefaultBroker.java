@@ -45,22 +45,19 @@ public class DefaultBroker implements Broker {
 
 
         // init member variables
-        this.partitions = brokersToPartitions.get(new Service("node-1", 8080));
+        this.partitions = brokersToPartitions.get(new Service(name, port));
         assert(this.partitions != null);
     }
 
     public List<Partition> getPartitions() {
         return partitions;
     }
-    public void addPartition(Partition partition) {
-        partitions.add(partition);
-    }
 
     public List<Message> consume(Topic topic, int id, int offset) throws BadPartitionException, NoPartitionFound {
         if (topic == Topic.RIDER_REQUESTS_RIDE) {
-            throw new BadPartitionException(String.format("%s partitions by id not city", topic.toString()));
+            throw new BadPartitionException(String.format("%s partitions by id not city", topic));
         }
-        List<Message> messages = new ArrayList<Message>();
+        List<Message> messages = new ArrayList<>();
 
         Partition p = findPartition(topic, id);
         Message m = p.readMessage(offset);
@@ -78,7 +75,7 @@ public class DefaultBroker implements Broker {
         if (topic != Topic.RIDER_REQUESTS_RIDE) {
             throw new BadPartitionException(String.format("%s partitions by id not city", topic.toString()));
         }
-        List<Message> messages = new ArrayList<Message>();
+        List<Message> messages = new ArrayList<>();
 
         Partition p = findPartition(topic, city);
         System.out.println(p);
@@ -113,7 +110,6 @@ public class DefaultBroker implements Broker {
     }
 
     public Service clientInit(Topic topic, int id) throws NoPartitionFound {
-        Partition p;
         for (var entry : brokersToPartitions.entrySet()) {
             try {
                 findPartition(entry.getValue(), topic, id);
@@ -127,13 +123,16 @@ public class DefaultBroker implements Broker {
     }
 
     public Service clientInit(Topic topic, String city) throws NoPartitionFound {
-        Partition p;
         for (var entry : brokersToPartitions.entrySet()) {
-            if(findPartition(entry.getValue(), topic, city) != null) {
+            try {
+                findPartition(entry.getValue(), topic, city);
                 return entry.getKey();
             }
+            catch(NoPartitionFound e) {
+                // continue
+            }
         }
-        return null;
+        throw new NoPartitionFound();
     }
 
     private Partition findPartition(Topic topic, String city) throws NoPartitionFound {
@@ -146,8 +145,7 @@ public class DefaultBroker implements Broker {
 
     private static Partition findPartition(List<Partition> partitions, Topic topic, String city) throws NoPartitionFound {
         for (Partition p : partitions) {
-            if (p instanceof CityPartition) {
-                CityPartition cp = (CityPartition) p;
+            if (p instanceof CityPartition cp) {
                 if (p.getTopic() == topic && city.equals(cp.getCity())) {
                     return p;
                 }
@@ -158,8 +156,7 @@ public class DefaultBroker implements Broker {
 
     private static Partition findPartition(List<Partition> partitions, Topic topic, int id) throws NoPartitionFound {
         for (Partition p : partitions) {
-            if (p instanceof IdPartition) {
-                IdPartition idp = (IdPartition) p;
+            if (p instanceof IdPartition idp) {
                 if (p.getTopic() == topic && id == idp.getId()) {
                     return p;
                 }

@@ -12,11 +12,17 @@ Use the verify command with the Maven wrapper to run all of the steps of the Mav
 ```bash
 ./mvnw verify
 ```
-
-Run the JAR file that it has just packaged:
+To skip the tests, you can run:
+```bash
+./mvnw verify -DskipTests
 ```
+
+Run the JAR file that was just packaged:
+```bash
 java -jar target/kafkaesque-1.0.0.jar
 ```
+This will create a single node, running a Spring Boot REST service with endpoints for producing and consuming events.
+
 ### Docker
 Build the image with:
 ```bash
@@ -27,12 +33,14 @@ Run the image with:
 ```bash
 docker run kafkaesque
 ```
+This will create a single node, running a Spring Boot REST service with endpoints for producing and consuming events.
 
-### Docker Compose (WIP)
-Use Docker Compose to establish a Kafkaesque test cluster on a single machine:
+### Docker Compose
+Use Docker Compose to establish a Kafkaesque test cluster (detached) on a single machine:
 ```bash
-docker compose up
+docker compose up -d
 ```
+This will start up 4 nodes on the host, each running a Spring Boot REST service with endpoints for producing and consuming events.
 
 Take everything down with:
 ```bash

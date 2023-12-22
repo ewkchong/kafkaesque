@@ -9,9 +9,10 @@ import types.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface Broker {
-    public List<Partition> getPartitions();
+    public Map<Topic, List<Partition>> getPartitions();
 
     // REST API methods below
 
@@ -21,10 +22,10 @@ public interface Broker {
     // for Topic: Rider Requests Ride
     public List<Message> consume(Topic topic, String city, int offset) throws BadPartitionException, NoPartitionFound;
     // used by producers to send a message
-    public void produce(Message message) throws NoPartitionFound;
+    public void produce(Message message) throws NoPartitionFound, BadPartitionException;
 
 
-    // returns port number of assigned broker
-    public Service clientInit(Topic topic, int id) throws NoPartitionFound;
-    public Service clientInit(Topic topic, String city) throws NoPartitionFound;
+    // returns the info of corresponding broker
+    public Service findBroker(Topic topic, int id) throws BadPartitionException;
+    public Service findBroker(Topic topic, String city) throws BadPartitionException;
 }

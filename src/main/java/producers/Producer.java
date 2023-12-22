@@ -2,6 +2,7 @@ package producers;
 
 import brokers.Broker;
 import exceptions.NoPartitionFound;
+import exceptions.BadPartitionException;
 import messages.Message;
 import types.Topic;
 
@@ -13,15 +14,15 @@ public interface Producer {
      * @param broker The initial broker to communicate with.
      * @param topic The topic to which messages will be produced.
      */
-    void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound;
-    void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound;
+    void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound, BadPartitionException;
+    void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound, BadPartitionException;
 
     /**
      * Produces a message to the assigned broker.
      *
      * @param message
      */
-    void produceMessage(Message message) throws NoPartitionFound;
+    void produceMessage(Message message) throws NoPartitionFound, BadPartitionException;
 
     /**
      * Closes the producer, releasing any resources.

@@ -18,7 +18,8 @@ import types.Topic;
 
 import java.util.List;
 import java.util.Map;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
 public class KafkaRestController{
@@ -33,7 +34,12 @@ public class KafkaRestController{
 
     @Autowired
     public void setup(){
-        this.broker = new DefaultBroker("node-1", 8080);
+        try {
+            List<String> content = Files.readAllLines(Paths.get("nodeinfo.txt"));
+            this.broker = new DefaultBroker(content.get(0), "127.0.0.1", Integer.parseInt(content.get(1)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public Boolean VerifyPutInput(Map<String, Object> body) {
@@ -75,6 +81,8 @@ public class KafkaRestController{
             broker.produce(message);
         } catch (NoPartitionFound e) {
             throw new WrongServer("check 192.168.1.0");
+        } catch (BadPartitionException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -153,6 +161,23 @@ public class KafkaRestController{
     public void PutUserAccepts(@RequestBody Map<String, Object> info){
         PutRequest(Topic.RIDER_ACCEPTS_RIDE,info);
 
+    }
+
+    @GetMapping("/findbroker")
+    public Service GetBroker(@RequestParam(value="topic", defaultValue="0") int topicIdx,
+                             @RequestParam(value="id", defaultValue="0") int id,
+                             @RequestParam(value="city", defaultValue="") String city){
+        Topic topic = Topic.values()[topicIdx];
+        try {
+            if (topic == Topic.RIDER_REQUESTS_RIDE) {
+                return broker.findBroker(topic, city);
+            } else {
+                return broker.findBroker(topic, id);
+            }
+        } catch (BadPartitionException e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
 }

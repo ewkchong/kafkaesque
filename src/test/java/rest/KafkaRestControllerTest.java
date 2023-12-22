@@ -63,6 +63,8 @@ public class KafkaRestControllerTest {
             doNothing().when(mockBroker).produce(any(Message.class));
         } catch (NoPartitionFound e) {
             throw new RuntimeException(e);
+        } catch (BadPartitionException e) {
+            throw new RuntimeException(e);
         }
 
         // Perform the test
@@ -73,6 +75,8 @@ public class KafkaRestControllerTest {
         try {
             verify(mockBroker, times(1)).produce(any(Message.class));
         } catch (NoPartitionFound e) {
+            throw new RuntimeException(e);
+        } catch (BadPartitionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -90,7 +94,7 @@ public class KafkaRestControllerTest {
         int id = 1;
         int offset = 0;
         try {
-            when(mockBroker.consume(any(), anyInt(), anyInt())).thenThrow(new NoPartitionFound());
+            when(mockBroker.consume(any(), anyInt(), anyInt())).thenThrow(new NoPartitionFound(""));
         } catch (BadPartitionException | NoPartitionFound e) {
             throw new RuntimeException(e);
         }
@@ -108,8 +112,10 @@ public class KafkaRestControllerTest {
         info.put("lng", 20.0);
 
         try {
-            doThrow(new NoPartitionFound()).when(mockBroker).produce(any(Message.class));
+            doThrow(new NoPartitionFound("")).when(mockBroker).produce(any(Message.class));
         } catch (NoPartitionFound e) {
+            throw new RuntimeException(e);
+        } catch (BadPartitionException e) {
             throw new RuntimeException(e);
         }
     }

@@ -17,7 +17,7 @@ public interface Consumer {
      * @param topic The topic from which messages will be consumed.
      * @param id The driver/rider id we are interested in OR -1 if not needed
      */
-    void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound;
+    void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound, BadPartitionException;
 
     /**
      * Same as above but when we don't want to specify an id
@@ -25,10 +25,8 @@ public interface Consumer {
      * @param broker The initial broker to communicate with.
      * @param topic The topic from which messages will be consumed.
      */
-    void initialize(Broker broker, Topic topic) throws NoPartitionFound;
-
     // for city
-    public void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound;
+    void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound, BadPartitionException;
 
     /**
      * Consume from the assigned broker.

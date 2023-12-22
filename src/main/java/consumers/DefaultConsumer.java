@@ -24,22 +24,20 @@ public class DefaultConsumer implements Consumer {
         this.messageBuffer = new ArrayList<Message>();
     }
 
-    public void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound {
-        initialize(broker, topic);
+    public void initialize(Broker broker, Topic topic, int id) throws NoPartitionFound, BadPartitionException {
+        this.broker = broker;
+        this.topic = topic;
+        this.service = broker.findBroker(topic, id);
         this.id = id;
         this.offset = 0;
     }
 
-    public void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound {
-        initialize(broker, topic);
-        this.city = city;
-        this.offset = 0;
-    }
-
-    public void initialize(Broker broker, Topic topic) throws NoPartitionFound {
+    public void initialize(Broker broker, Topic topic, String city) throws NoPartitionFound, BadPartitionException {
         this.broker = broker;
         this.topic = topic;
-        this.service = broker.clientInit(topic, id);
+        this.service = broker.findBroker(topic, city);
+        this.city = city;
+        this.offset = 0;
     }
 
     public void consumeMessage() throws BadPartitionException, NoPartitionFound {

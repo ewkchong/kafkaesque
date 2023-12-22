@@ -24,12 +24,12 @@ public class BrokerTest {
 
 	@Test
     public void testConsume() throws BadPartitionException {
-        Broker b = new DefaultBroker("node-1", 8080);
+        Broker b = new DefaultBroker("node-1", "127.0.0.1", 8080);
         assertDoesNotThrow(() -> {
-            b.consume(Topic.RIDER_REQUESTS_RIDE, "Vancouver", 0);
+            b.consume(Topic.RIDER_REQUESTS_RIDE, "Toronto", 0);
         });
         assertDoesNotThrow(() -> {
-            b.consume(Topic.DRIVER_DATA, 1, 1);
+            b.consume(Topic.DRIVER_DATA, 0, 0);
         });
 
         assertThrows(BadPartitionException.class, () -> {

@@ -6,13 +6,15 @@ import java.util.Objects;
 
 public class Service {
     public String name;
+    public String ip;
     public int port;
     private int hashCode;
 
-    public Service(String name, int port) {
+    public Service(String name, String ip, int port) {
         this.name = name;
+        this.ip = ip;
         this.port = port;
-        this.hashCode = Objects.hash(name, port);
+        this.hashCode = Objects.hash(name, ip, port);
     }
 
     @Override
@@ -23,7 +25,7 @@ public class Service {
         }
         Service otherService = (Service) obj;
 
-        return otherService.name.equals(this.name) && otherService.port == this.port;
+        return otherService.name.equals(this.name) && otherService.ip.equals(this.ip) && otherService.port == this.port;
     }
 
     @Override
